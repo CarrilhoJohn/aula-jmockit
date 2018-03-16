@@ -92,7 +92,7 @@ public class AdventureProcessMethodMockTest {
 		new Expectations() {
 			{
 				BankInterface.processPayment(IBAN, 300);
-				this.result = new BankException();
+				this.result = new HotelException();
 				
 				HotelInterface.reserveHotel(Type.SINGLE, AdventureProcessMethodMockTest.this.begin,
 						AdventureProcessMethodMockTest.this.end);
@@ -122,9 +122,16 @@ public class AdventureProcessMethodMockTest {
 		
 		new Expectations() {
 			{
-			ActivityInterface.reserveActivity(AdventureProcessMethodMockTest.this.begin,
+				BankInterface.processPayment(IBAN, 300);
+				this.result = new ActivityException();
+				
+				HotelInterface.reserveHotel(Type.SINGLE, AdventureProcessMethodMockTest.this.begin,
+						AdventureProcessMethodMockTest.this.end);
+				this.result = new ActivityException();
+				
+				ActivityInterface.reserveActivity(AdventureProcessMethodMockTest.this.begin,
 						AdventureProcessMethodMockTest.this.end, 20);
-			this.result = new ActivityException();
+				this.result = new ActivityException();
 			}
 		
 		};
